@@ -26,5 +26,27 @@ namespace Mercora.Api.Controllers
 
             return Ok(products);
         }
+
+        [HttpGet("{Slug}")]
+        public async Task<IActionResult> GetProductBySlug(string slug)
+        {
+            var product = await _db.Products
+                .Where(product => product.Slug == slug && product.IsPublished && !product.IsDeleted)
+                .Select(product => new
+                {
+                    product.ProductId,
+                    product.Name,
+                    product.Slug,
+                    product.Description,
+                    product.BasePrice,
+                    product.CurrencyCode
+                })
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
+        }
     }
 }
