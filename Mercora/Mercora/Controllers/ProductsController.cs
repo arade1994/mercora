@@ -12,14 +12,44 @@ namespace Mercora.Api.Controllers
 
         [HttpGet]
         [Route("api/[controller]")]
-        public async Task<ActionResult<PagedResultDto<ProductListItemDto>>> GetProducts([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResultDto<ProductListItemDto>>> GetProducts([FromQuery] ProductQueryDto q)
         {
-            if (page < 1) page = 1;
-            if (pageSize < 1) pageSize = 20;
+            var page = q.Page < 1 ? 1 : q.Page;
+            var pageSize = q.PageSize < 1 ? 20 : q.PageSize;
             if (pageSize > 100) pageSize = 100;
 
             var baseQuery = _db.Products
                 .Where(product => product.IsPublished && !product.IsDeleted);
+
+            if (!string.IsNullOrWhiteSpace(q.Search))
+            {
+                var search = q.Search.Trim();
+                baseQuery = baseQuery.Where(product => product.Name.Contains(search));
+            }
+
+            if (q.MinPrice is not null)
+                baseQuery = baseQuery.Where(product => product.BasePrice >= q.MinPrice);
+
+            if (q.MaxPrice is not null)
+                baseQuery = baseQuery.Where(product => product.BasePrice <= q.MaxPrice);
+            
+            if (!string.IsNullOrWhiteSpace(q.CategorySlug))
+            {
+                var slug = q.CategorySlug.Trim();
+
+                baseQuery = baseQuery
+                    .Where(product => product.Category
+                    .Any(category => category.Slug == slug && category.IsActive));
+            }
+
+            baseQuery = (q.Sort ?? "newest").Trim() switch
+            {
+                "priceAsc" => baseQuery.OrderBy(p => p.BasePrice),
+                "priceDesc" => baseQuery.OrderByDescending(p => p.BasePrice),
+                "nameAsc" => baseQuery.OrderBy(p => p.Name),
+                "nameDesc" => baseQuery.OrderByDescending(p => p.Name),
+                _ => baseQuery.OrderByDescending(p => p.CreatedAtUtc)
+            };
 
             var totalCount = await baseQuery.CountAsync();
 
