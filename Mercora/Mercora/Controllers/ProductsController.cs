@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Mercora.Infrastructure.Persistence;
 using Mercora.Api.Dtos.Products;
+using Mercora.Api.Dtos.Common;
 
 namespace Mercora.Api.Controllers
 {
@@ -11,21 +12,38 @@ namespace Mercora.Api.Controllers
 
         [HttpGet]
         [Route("api/[controller]")]
-        public async Task<IActionResult> GetProducts()
+        public async Task<ActionResult<PagedResultDto<ProductListItemDto>>> GetProducts([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var products = await _db.Products
-                .Where(product => product.IsPublished && !product.IsDeleted)
-                .OrderByDescending(product => product.CreatedAtUtc)
-                .Select(product => new ProductListItemDto
-                    {
-                        ProductId = product.ProductId,
-                        Name = product.Name,
-                        Slug = product.Slug,
-                        BasePrice = product.BasePrice,
-                        CurrencyCode = product.CurrencyCode
-                    }).ToListAsync();
+            if (page < 1) page = 1;
+            if (pageSize < 1) pageSize = 20;
+            if (pageSize > 100) pageSize = 100;
 
-            return Ok(products);
+            var baseQuery = _db.Products
+                .Where(product => product.IsPublished && !product.IsDeleted);
+
+            var totalCount = await baseQuery.CountAsync();
+
+            var items = await baseQuery
+                .OrderByDescending(product => product.CreatedAtUtc)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(product => new ProductListItemDto
+                {
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Slug = product.Slug,
+                    BasePrice = product.BasePrice,
+                    CurrencyCode = product.CurrencyCode
+                })
+                .ToListAsync();
+
+            return Ok(new PagedResultDto<ProductListItemDto>
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                Items = items
+            });
         }
 
         [HttpGet("api/[controller]/{Slug}")]
