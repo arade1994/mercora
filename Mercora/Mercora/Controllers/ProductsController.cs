@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mercora.Infrastructure.Persistence;
+using Mercora.Api.Dtos.Products;
 
 namespace Mercora.Api.Controllers
 {
@@ -15,31 +16,33 @@ namespace Mercora.Api.Controllers
             var products = await _db.Products
                 .Where(product => product.IsPublished && !product.IsDeleted)
                 .OrderByDescending(product => product.CreatedAtUtc)
-                .Select(product => new
+                .Select(product => new ProductListItemDto
                     {
-                        product.ProductId,
-                        product.Name,
-                        product.Slug,
-                        product.BasePrice,
-                        product.CurrencyCode
+                        ProductId = product.ProductId,
+                        Name = product.Name,
+                        Slug = product.Slug,
+                        BasePrice = product.BasePrice,
+                        CurrencyCode = product.CurrencyCode
                     }).ToListAsync();
 
             return Ok(products);
         }
 
-        [HttpGet("{Slug}")]
+        [HttpGet("api/[controller]/{Slug}")]
         public async Task<IActionResult> GetProductBySlug(string slug)
         {
+            var normalized = slug.Trim().ToLowerInvariant();
+
             var product = await _db.Products
-                .Where(product => product.Slug == slug && product.IsPublished && !product.IsDeleted)
-                .Select(product => new
+                .Where(product => product.Slug.ToLower() == normalized)
+                .Select(product => new ProductDetailsDto
                 {
-                    product.ProductId,
-                    product.Name,
-                    product.Slug,
-                    product.Description,
-                    product.BasePrice,
-                    product.CurrencyCode
+                    ProductId = product.ProductId,
+                    Name = product.Name,
+                    Slug = product.Slug,
+                    Description = product.Description,
+                    BasePrice = product.BasePrice,
+                    CurrencyCode = product.CurrencyCode
                 })
                 .FirstOrDefaultAsync();
 
