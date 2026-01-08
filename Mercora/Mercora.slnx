@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Mercora.Infrastructure/Mercora.Infrastructure.csproj" />
+  <Project Path="Mercora/Mercora.Api.csproj" />
+</Solution>
