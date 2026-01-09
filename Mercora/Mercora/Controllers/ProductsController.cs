@@ -82,7 +82,7 @@ namespace Mercora.Api.Controllers
             var normalized = slug.Trim().ToLowerInvariant();
 
             var product = await _db.Products
-                .Where(product => product.Slug.ToLower() == normalized)
+                .Where(product => product.Slug.ToLower() == normalized && product.IsPublished && !product.IsDeleted)
                 .Select(product => new ProductDetailsDto
                 {
                     ProductId = product.ProductId,
@@ -90,7 +90,33 @@ namespace Mercora.Api.Controllers
                     Slug = product.Slug,
                     Description = product.Description,
                     BasePrice = product.BasePrice,
-                    CurrencyCode = product.CurrencyCode
+                    CurrencyCode = product.CurrencyCode,
+                    PrimaryImageUrl = product.ProductImages != null ? product.ProductImages.Url : null,
+                    Images = product.ProductImages != null
+                        ? new List<ProductImageDto>
+                        {
+                            new ProductImageDto
+                            {
+                                ImageId = product.ProductImages.ImageId,
+                                Url = product.ProductImages.Url,
+                                IsPrimary = true,
+                                SortOrder = 0
+                            }
+                        } 
+                        : new List<ProductImageDto>(),
+                    Variants = product.ProductVariants
+                        .Where(variant => variant.IsActive)
+                        .OrderBy(variant => variant.Sku)
+                        .Select(variant => new ProductVariantDto
+                        {
+                            VariantId = variant.VariantId,
+                            Sku = variant.Sku,
+                            VariantName = variant.VariantName,
+                            Price = product.BasePrice + variant.PriceDelta,
+                            QuantityOnHand = variant.Inventory != null ? variant.Inventory.QuantityOnHand : 0,
+                            ReorderPoint = variant.Inventory != null ? variant.Inventory.ReorderPoint : 0,
+                            IsActive = variant.IsActive
+                        }).ToList()
                 })
                 .FirstOrDefaultAsync();
 

@@ -8,5 +8,8 @@
         public string? Description { get; init; }
         public decimal BasePrice { get; init;  }
         public string CurrencyCode { get; init; } = null!;
+        public string? PrimaryImageUrl { get; init; }
+        public IReadOnlyList<ProductImageDto> Images { get; init; } = [];
+        public IReadOnlyList<ProductVariantDto> Variants { get; init; } = [];
     }
 }
