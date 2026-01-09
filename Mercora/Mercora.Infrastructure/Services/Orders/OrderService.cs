@@ -11,7 +11,7 @@ namespace Mercora.Infrastructure.Services.Orders
     {
         private readonly MercoraDbContext _db;
 
-        public OrderService(MercoraDbContext db) => _db = db;  
+        public OrderService(MercoraDbContext db) => _db = db;
 
         public async Task<PlaceOrderResponseDto> PlaceOrderAsync(PlaceOrderRequestDto request)
         {

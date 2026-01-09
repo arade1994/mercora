@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Mercora.Infrastructure.Persistence.Models;
+﻿using Mercora.Infrastructure.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mercora.Infrastructure.Persistence;

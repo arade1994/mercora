@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Mercora.Application.Dtos.Common;
+﻿using Mercora.Application.Dtos.Common;
 using Mercora.Application.Dtos.Products;
 using Mercora.Application.Products;
 using Mercora.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mercora.Infrastructure.Services.Products
 {

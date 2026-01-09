@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mercora.Application.Dtos.Common;
 using Mercora.Application.Dtos.Products;
-using Mercora.Application.Dtos.Common;
 using Mercora.Application.Products;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Mercora.Api.Controllers
 {

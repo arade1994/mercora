@@ -1,9 +1,9 @@
-using Microsoft.EntityFrameworkCore;
-using Mercora.Infrastructure.Persistence;
-using Mercora.Application.Products;
-using Mercora.Infrastructure.Services.Products;
 using Mercora.Application.Orders;
+using Mercora.Application.Products;
+using Mercora.Infrastructure.Persistence;
 using Mercora.Infrastructure.Services.Orders;
+using Mercora.Infrastructure.Services.Products;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

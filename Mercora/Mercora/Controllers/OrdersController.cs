@@ -1,11 +1,7 @@
-﻿using System.Data;
-using Mercora.Application.Dtos.Orders;
-using Mercora.Infrastructure.Persistence;
-using Mercora.Infrastructure;
+﻿using Mercora.Application.Dtos.Orders;
+using Mercora.Application.Orders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Mercora.Application.Orders;
 
 namespace Mercora.Api.Controllers
 {
@@ -25,8 +21,8 @@ namespace Mercora.Api.Controllers
                 var result = await _orders.PlaceOrderAsync(request);
 
                 return Ok(result);
-            } 
-            catch (SqlException ex) when (ex.Number >= 50000 && ex.Number < 60000) 
+            }
+            catch (SqlException ex) when (ex.Number >= 50000 && ex.Number < 60000)
             {
                 return BadRequest(new { errorCode = ex.Number, message = ex.Message });
             }
