@@ -5,6 +5,7 @@ using Mercora.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Mercora.Application.Orders;
 
 namespace Mercora.Api.Controllers
 {
@@ -12,71 +13,26 @@ namespace Mercora.Api.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly MercoraDbContext _db;
+        private readonly IOrderService _orders;
 
-        public OrdersController(MercoraDbContext db)
-        {
-            _db = db;
-        }
+        public OrdersController(IOrderService orders) => _orders = orders;
 
         [HttpPost]
         public async Task<IActionResult> PlaceOrder([FromBody] PlaceOrderRequestDto request)
         {
-            if (request.UserId <= 0)
-                return BadRequest("User id is required");
-
-            if (request.Lines is null || request.Lines.Count == 0)
-                return BadRequest("Order must contain at least one line");
-
-            if (request.Lines.Any(l => l.VariantId <= 0 || l.Quantity <= 0))
-                return BadRequest("Each line must have valid VariantId and Quantity > 0");
-
-            if (request.Lines.GroupBy(l => l.VariantId).Any(g => g.Count() > 1))
-                return BadRequest("Duplicate VariantId lines are not allowed");
-
-            var tvp = SqlTvpFactory.BuildOrderLinesTvp(
-                request.Lines.Select(l => (l.VariantId, l.Quantity)));
-
-            var userIdParam = new SqlParameter("@UserId", request.UserId);
-            var linesParam = new SqlParameter("Lines", tvp)
-            {
-                SqlDbType = SqlDbType.Structured,
-                TypeName = "dbo.OrderLineType"
-            };
-            var orderIdParam = new SqlParameter("@OrderId", SqlDbType.Int)
-            {
-                Direction = ParameterDirection.Output
-            };
-            var orderNumberParam = new SqlParameter("@OrderNumber", SqlDbType.NVarChar, 30)
-            {
-                Direction = ParameterDirection.Output
-            };
-
             try
             {
-                await _db.Database.ExecuteSqlRawAsync(
-                    "EXEC dbo.spPlaceOrder @UserId, @Lines, @OrderId OUTPUT, @OrderNumber OUTPUT",
-                    userIdParam, linesParam, orderIdParam, orderNumberParam);
+                var result = await _orders.PlaceOrderAsync(request);
 
-                var orderId = (int)orderIdParam.Value;
-                var orderNumber = (int)orderIdParam.Value;
-
-                var order = await _db.Orders
-                    .Where(o => o.OrderId == orderId)
-                    .Select(o => new { o.Subtotal, o.CurrencyCode })
-                    .FirstAsync();
-
-                return Ok(new PlaceOrderResponseDto
-                {
-                    OrderId = orderId,
-                    OrderNumber = orderNumber.ToString(),
-                    TotalAmount = order.Subtotal,
-                    CurrencyCode = order.CurrencyCode
-                });
+                return Ok(result);
             } 
             catch (SqlException ex) when (ex.Number >= 50000 && ex.Number < 60000) 
             {
                 return BadRequest(new { errorCode = ex.Number, message = ex.Message });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
