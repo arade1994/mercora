@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mercora.Infrastructure.Persistence;
-using Mercora.Api.Dtos.Products;
-using Mercora.Api.Dtos.Common;
+using Mercora.Application.Dtos.Products;
+using Mercora.Application.Dtos.Common;
 
 namespace Mercora.Api.Controllers
 {

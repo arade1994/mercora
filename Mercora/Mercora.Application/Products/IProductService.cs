@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Mercora.Application.Dtos.Common;
+using Mercora.Application.Dtos.Products;
 
 namespace Mercora.Application.Products
 {

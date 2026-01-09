@@ -1,5 +1,5 @@
 ﻿using System.Data;
-using Mercora.Api.Dtos.Orders;
+using Mercora.Application.Dtos.Orders;
 using Mercora.Infrastructure.Persistence;
 using Mercora.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
