@@ -1,25 +1,14 @@
-using Mercora.Application.Orders;
-using Mercora.Application.Products;
-using Mercora.Infrastructure.Persistence;
-using Mercora.Infrastructure.Services.Orders;
-using Mercora.Infrastructure.Services.Products;
+using Mercora.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<MercoraDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MercoraDB"));
-});
+builder.Services.AddMercoraInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
