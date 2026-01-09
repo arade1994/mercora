@@ -1,4 +1,4 @@
-﻿namespace Mercora.Api.Dtos.Orders
+﻿namespace Mercora.Application.Dtos.Orders
 {
     public class PlaceOrderResponseDto
     {

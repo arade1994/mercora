@@ -1,4 +1,4 @@
-﻿namespace Mercora.Api.Dtos.Common
+﻿namespace Mercora.Application.Dtos.Common
 {
     public class PagedResultDto<T>
     {

@@ -1,4 +1,4 @@
-﻿namespace Mercora.Api.Dtos.Products
+﻿namespace Mercora.Application.Dtos.Products
 {
     public class ProductVariantDto
     {

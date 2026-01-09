@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mercora.Application\Mercora.Application.csproj" />
     <ProjectReference Include="..\Mercora.Infrastructure\Mercora.Infrastructure.csproj" />
   </ItemGroup>
 

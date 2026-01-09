@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Mercora.Application/Mercora.Application.csproj" Id="8195306b-1f72-47b7-804b-ca673d8be73e" />
   <Project Path="Mercora.Infrastructure/Mercora.Infrastructure.csproj" />
   <Project Path="Mercora/Mercora.Api.csproj" />
 </Solution>
