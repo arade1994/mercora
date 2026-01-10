@@ -1,0 +1,66 @@
+<div style="max-width: 1100px; margin: 0 auto; padding: 24px;">
+  <h1 style="margin: 0 0 16px;">Mercora Products</h1>
+
+  <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
+    <input
+      [(ngModel)]="searchText"
+      (ngModelChange)="searchText.set($event)"
+      (keyup.enter)="onSearch()"
+      placeholder="Search products..."
+      style="flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd;"
+    />
+
+    <button (click)="onSearch()" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
+      Search
+    </button>
+
+    <select
+      [ngModel]="sort()"
+      (ngModelChange)="onSortChange($event)"
+      style="padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd;"
+    >
+      <option value="newest">Newest</option>
+      <option value="priceAsc">Price ↑</option>
+      <option value="priceDesc">Price ↓</option>
+      <option value="nameAsc">Name A→Z</option>
+      <option value="nameDesc">Name Z→A</option>
+    </select>
+  </div>
+
+  @if (store.state() === 'loading') {
+    <p>Loading...</p>
+  } @else if (store.state() === 'error') {
+    <p style="color: #b00020;">{{ store.error() }}</p>
+  } @else {
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+      @for (p of store.items(); track p.productId) {
+        <a
+          [routerLink]="['/products', p.slug]"
+          style="display: block; padding: 14px; border: 1px solid #eee; border-radius: 14px; text-decoration: none; color: inherit;"
+        >
+          <div style="font-weight: 600;">{{ p.name }}</div>
+          <div style="opacity: 0.7; margin-top: 6px;">{{ p.currencyCode }} {{ p.priceFrom }}</div>
+          @if (p.primaryImageUrl) {
+            <div style="margin-top: 10px; font-size: 12px; opacity: 0.7;">
+              Image: {{ p.primaryImageUrl }}
+            </div>
+          }
+        </a>
+      }
+    </div>
+
+    <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 18px;">
+      <button (click)="prevPage()" [disabled]="store.page() <= 1" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
+        Prev
+      </button>
+
+      <div>
+        Page <b>{{ store.page() }}</b> / {{ store.totalPages() }} · Total {{ store.totalCount() }}
+      </div>
+
+      <button (click)="nextPage()" [disabled]="store.page() >= store.totalPages()" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
+        Next
+      </button>
+    </div>
+  }
+</div>

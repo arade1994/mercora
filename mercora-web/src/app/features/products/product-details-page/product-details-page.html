@@ -1,0 +1,43 @@
+<div style="max-width: 900px; margin: 0 auto; padding: 24px;">
+  <a routerLink="/products" style="text-decoration:none;">← Back</a>
+
+  @if (state() === 'loading') {
+    <p>Loading...</p>
+  } @else if (state() === 'error') {
+    <p style="color:#b00020;">{{ error() }}</p>
+  } @else if (product()) {
+    <h1 style="margin: 12px 0 8px;">{{ product()?.name }}</h1>
+    <div style="opacity: 0.75;">{{ product()?.currencyCode }} {{ product()?.basePrice }}</div>
+
+    @if (product()?.primaryImageUrl) {
+      <p style="margin-top: 8px; font-size: 12px; opacity: 0.7;">
+        Primary image: {{ product()?.primaryImageUrl }}
+      </p>
+    }
+
+    @if (product()?.description) {
+      <p style="margin-top: 14px;">{{ product()?.description }}</p>
+    }
+
+    <h2 style="margin-top: 22px;">Variants</h2>
+    <div style="display:grid; gap: 10px; margin-top: 10px;">
+      @for (v of product()?.variants; track v.variantId) {
+        <div style="border: 1px solid #eee; border-radius: 14px; padding: 12px;">
+          <div style="display:flex; justify-content: space-between;">
+            <div>
+              <div style="font-weight: 600;">{{ v.sku }}</div>
+              <div style="opacity: 0.7;">{{ v.variantName || 'Default' }}</div>
+            </div>
+            <div style="font-weight: 600;">
+              {{ product()?.currencyCode }} {{ v.price }}
+            </div>
+          </div>
+
+          <div style="margin-top: 8px; font-size: 13px; opacity: 0.8;">
+            Stock: {{ v.quantityOnHand }} (reorder at {{ v.reorderPoint }})
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

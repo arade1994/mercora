@@ -13,7 +13,10 @@ namespace Mercora.Api.Controllers
 
         [HttpGet]
         [Route("api/[controller]")]
-        public async Task<ActionResult<PagedResultDto<ProductListItemDto>>> GetProducts([FromQuery] ProductQueryDto q) => Ok(await _products.GetProductsAsync(q));
+        public async Task<ActionResult<PagedResultDto<ProductListItemDto>>> GetProducts([FromQuery] ProductQueryDto q)
+        {
+            return Ok(await _products.GetProductsAsync(q));
+        }
 
         [HttpGet("api/[controller]/{Slug}")]
         public async Task<IActionResult> GetProductBySlug(string slug)
