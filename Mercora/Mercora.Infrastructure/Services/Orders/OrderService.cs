@@ -1,4 +1,5 @@
-﻿using Mercora.Application.Dtos.Orders;
+﻿using Mercora.Application.Common.Exceptions;
+using Mercora.Application.Dtos.Orders;
 using Mercora.Application.Orders;
 using Mercora.Infrastructure.Persistence;
 using Microsoft.Data.SqlClient;
@@ -45,9 +46,16 @@ namespace Mercora.Infrastructure.Services.Orders
                 Direction = ParameterDirection.Output
             };
 
-            await _db.Database.ExecuteSqlRawAsync(
+            try
+            {
+                await _db.Database.ExecuteSqlRawAsync(
                     "EXEC dbo.spPlaceOrder @UserId, @Lines, @OrderId OUTPUT, @OrderNumber OUTPUT",
                     userIdParam, linesParam, orderIdParam, orderNumberParam);
+            }
+            catch (SqlException ex) when (ex.Number >= 50000 && ex.Number <= 60000)
+            {
+                throw new BusinessRuleException(ex.Number, ex.Message);
+            }
 
             var orderId = (int)orderIdParam.Value;
             var orderNumber = (int)orderIdParam.Value;
