@@ -1,65 +1,119 @@
-<div style="max-width: 1100px; margin: 0 auto; padding: 24px;">
-  <h1 style="margin: 0 0 16px;">Mercora Products</h1>
+<div class="products-page">
+  <div class="products-header">
+    <h1 class="page-title">Mercora Products</h1>
+    <p class="page-subtitle">Discover our curated collection</p>
+  </div>
 
-  <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
-    <input
-      [(ngModel)]="searchText"
-      (ngModelChange)="searchText.set($event)"
-      (keyup.enter)="onSearch()"
-      placeholder="Search products..."
-      style="flex: 1; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd;"
-    />
-
-    <button (click)="onSearch()" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
-      Search
-    </button>
+  <div class="filters-bar">
+    <div class="search-container">
+      <input
+        [(ngModel)]="searchText"
+        (ngModelChange)="searchText.set($event)"
+        (keyup.enter)="onSearch()"
+        placeholder="Search products..."
+        class="search-input"
+        type="text"
+      />
+      <button (click)="onSearch()" class="search-button">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </button>
+    </div>
 
     <select
       [ngModel]="sort()"
       (ngModelChange)="onSortChange($event)"
-      style="padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd;"
+      class="sort-select"
     >
-      <option value="newest">Newest</option>
-      <option value="priceAsc">Price ↑</option>
-      <option value="priceDesc">Price ↓</option>
-      <option value="nameAsc">Name A→Z</option>
-      <option value="nameDesc">Name Z→A</option>
+      <option value="newest">Newest First</option>
+      <option value="priceAsc">Price: Low to High</option>
+      <option value="priceDesc">Price: High to Low</option>
+      <option value="nameAsc">Name: A to Z</option>
+      <option value="nameDesc">Name: Z to A</option>
     </select>
   </div>
 
   @if (store.state() === 'loading') {
-    <p>Loading...</p>
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p class="loading-text">Loading products...</p>
+    </div>
   } @else if (store.state() === 'error') {
-    <p style="color: #b00020;">{{ store.error() }}</p>
+    <div class="error-container">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <p class="error-message">{{ store.error() }}</p>
+    </div>
   } @else {
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+    <div class="products-grid">
       @for (p of store.items(); track p.productId) {
         <a
           [routerLink]="['/products', p.slug]"
-          style="display: block; padding: 14px; border: 1px solid #eee; border-radius: 14px; text-decoration: none; color: inherit;"
+          class="product-card"
         >
-          <div style="font-weight: 600;">{{ p.name }}</div>
-          <div style="opacity: 0.7; margin-top: 6px;">{{ p.currencyCode }} {{ p.priceFrom }}</div>
-          @if (p.primaryImageUrl) {
-            <div style="margin-top: 10px; font-size: 12px; opacity: 0.7;">
-              Image: {{ p.primaryImageUrl }}
+          <div class="product-image-container">
+            @if (p.primaryImageUrl) {
+              <img
+                [src]="p.primaryImageUrl"
+                [alt]="p.name"
+                class="product-image"
+                loading="lazy"
+              />
+            } @else {
+              <div class="product-image-placeholder">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+              </div>
+            }
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ p.name }}</h3>
+            <div class="product-price">
+              <span class="price-amount">{{ p.currencyCode }} {{ p.priceFrom | number:'1.2-2' }}</span>
             </div>
-          }
+          </div>
         </a>
       }
     </div>
 
-    <div style="display:flex; justify-content: space-between; align-items:center; margin-top: 18px;">
-      <button (click)="prevPage()" [disabled]="store.page() <= 1" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
-        Prev
+    <div class="pagination">
+      <button
+        (click)="prevPage()"
+        [disabled]="store.page() <= 1"
+        class="pagination-button"
+        [class.disabled]="store.page() <= 1"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Previous
       </button>
 
-      <div>
-        Page <b>{{ store.page() }}</b> / {{ store.totalPages() }} · Total {{ store.totalCount() }}
+      <div class="pagination-info">
+        <span class="pagination-text">
+          Page <strong>{{ store.page() }}</strong> of {{ store.totalPages() }}
+        </span>
+        <span class="pagination-total">{{ store.totalCount() }} products</span>
       </div>
 
-      <button (click)="nextPage()" [disabled]="store.page() >= store.totalPages()" style="padding: 10px 14px; border-radius: 10px; border: 1px solid #ddd;">
+      <button
+        (click)="nextPage()"
+        [disabled]="store.page() >= store.totalPages()"
+        class="pagination-button"
+        [class.disabled]="store.page() >= store.totalPages()"
+      >
         Next
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
       </button>
     </div>
   }
