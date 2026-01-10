@@ -3,9 +3,9 @@ using Mercora.Application.Dtos.Orders;
 
 namespace Mercora.Api.Validators
 {
-    public class PlaceOrderRequestValidator : AbstractValidator<PlaceOrderRequestDto>
+    public class PlaceOrderRequestDtoValidator : AbstractValidator<PlaceOrderRequestDto>
     {
-        public PlaceOrderRequestValidator()
+        public PlaceOrderRequestDtoValidator()
         {
             RuleFor(x => x.UserId)
                 .GreaterThan(0);

@@ -3,14 +3,14 @@ using Mercora.Application.Dtos.Products;
 
 namespace Mercora.Api.Validators
 {
-    public class ProductQueryValidator : AbstractValidator<ProductQueryDto>
+    public class ProductQueryDtoValidator : AbstractValidator<ProductQueryDto>
     {
         private static readonly HashSet<string> AllowedSorts =
         [
             "newest", "priceAsc", "priceDesc", "nameAsc", "nameDesc"
         ];
 
-        public ProductQueryValidator()
+        public ProductQueryDtoValidator()
         {
             RuleFor(x => x.Page)
                 .GreaterThan(0);
