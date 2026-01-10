@@ -13,13 +13,13 @@
     font-size: 2.5rem;
     font-weight: 700;
     margin: 0 0 8px;
-    color: #1a1a1a;
+    color: #1e293b;
     letter-spacing: -0.02em;
   }
 
   .page-subtitle {
     font-size: 1.1rem;
-    color: #666;
+    color: #64748b;
     margin: 0;
     font-weight: 400;
   }
@@ -42,7 +42,7 @@
     .search-input {
       width: 100%;
       padding: 14px 50px 14px 18px;
-      border: 2px solid #e0e0e0;
+      border: 2px solid #cbd5e1;
       border-radius: 12px;
       font-size: 1rem;
       transition: all 0.2s ease;
@@ -50,12 +50,12 @@
 
       &:focus {
         outline: none;
-        border-color: #2563eb;
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        border-color: #0d9488;
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
       }
 
       &::placeholder {
-        color: #9ca3af;
+        color: #94a3b8;
       }
     }
 
@@ -63,7 +63,7 @@
       position: absolute;
       right: 8px;
       padding: 10px;
-      background: #2563eb;
+      background: #0d9488;
       color: white;
       border: none;
       border-radius: 8px;
@@ -74,7 +74,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background: #1d4ed8;
+        background: #0f766e;
         transform: scale(1.05);
       }
 
@@ -86,7 +86,7 @@
 
   .sort-select {
     padding: 14px 18px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #cbd5e1;
     border-radius: 12px;
     font-size: 1rem;
     background: #fff;
@@ -96,8 +96,8 @@
 
     &:focus {
       outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: #0d9488;
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
     }
   }
 }
@@ -113,14 +113,14 @@
   .spinner {
     width: 48px;
     height: 48px;
-    border: 4px solid #f3f4f6;
-    border-top-color: #2563eb;
+    border: 4px solid #f1f5f9;
+    border-top-color: #0d9488;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
   .loading-text {
-    color: #666;
+    color: #64748b;
     font-size: 1.1rem;
     margin: 0;
   }
@@ -139,7 +139,7 @@
   justify-content: center;
   padding: 80px 20px;
   gap: 16px;
-  color: #dc2626;
+  color: #ea580c;
 
   svg {
     opacity: 0.8;
@@ -174,20 +174,20 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
+  border: 1px solid #e2e8f0;
 
   &:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-    border-color: #e0e0e0;
+    box-shadow: 0 12px 24px rgba(13, 148, 136, 0.15);
+    border-color: #0d9488;
   }
 
   .product-image-container {
     width: 100%;
     aspect-ratio: 1;
-    background: #f9fafb;
+    background: #f8fafc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -207,8 +207,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #d1d5db;
-      background: #f3f4f6;
+      color: #cbd5e1;
+      background: #f1f5f9;
     }
   }
 
@@ -223,7 +223,7 @@
       font-size: 1.1rem;
       font-weight: 600;
       margin: 0 0 12px;
-      color: #1a1a1a;
+      color: #1e293b;
       line-height: 1.4;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -239,7 +239,7 @@
       .price-amount {
         font-size: 1.25rem;
         font-weight: 700;
-        color: #2563eb;
+        color: #0d9488;
       }
     }
   }
@@ -251,7 +251,7 @@
   align-items: center;
   gap: 16px;
   padding: 24px 0;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #e2e8f0;
   flex-wrap: wrap;
 
   .pagination-button {
@@ -260,18 +260,18 @@
     gap: 8px;
     padding: 12px 20px;
     background: #fff;
-    border: 2px solid #e0e0e0;
+    border: 2px solid #cbd5e1;
     border-radius: 10px;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #374151;
+    color: #475569;
 
     &:hover:not(.disabled) {
-      background: #f9fafb;
-      border-color: #2563eb;
-      color: #2563eb;
+      background: #f8fafc;
+      border-color: #0d9488;
+      color: #0d9488;
     }
 
     &.disabled {
@@ -293,17 +293,17 @@
 
     .pagination-text {
       font-size: 0.95rem;
-      color: #6b7280;
+      color: #64748b;
 
       strong {
-        color: #1a1a1a;
+        color: #1e293b;
         font-weight: 600;
       }
     }
 
     .pagination-total {
       font-size: 0.85rem;
-      color: #9ca3af;
+      color: #94a3b8;
     }
   }
 }

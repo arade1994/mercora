@@ -9,7 +9,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #2563eb;
+  color: #0d9488;
   text-decoration: none;
   font-weight: 500;
   margin-bottom: 24px;
@@ -17,7 +17,7 @@
   padding: 8px 0;
 
   &:hover {
-    color: #1d4ed8;
+    color: #0f766e;
     gap: 12px;
   }
 
@@ -37,14 +37,14 @@
   .spinner {
     width: 56px;
     height: 56px;
-    border: 4px solid #f3f4f6;
-    border-top-color: #2563eb;
+    border: 4px solid #f1f5f9;
+    border-top-color: #0d9488;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
   .loading-text {
-    color: #666;
+    color: #64748b;
     font-size: 1.1rem;
     margin: 0;
   }
@@ -63,7 +63,7 @@
   justify-content: center;
   padding: 120px 20px;
   gap: 16px;
-  color: #dc2626;
+  color: #ea580c;
 
   svg {
     opacity: 0.8;
@@ -94,9 +94,9 @@
     aspect-ratio: 1;
     border-radius: 16px;
     overflow: hidden;
-    background: #f9fafb;
+    background: #f8fafc;
     margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
 
     .main-image {
       width: 100%;
@@ -110,13 +110,13 @@
     width: 100%;
     aspect-ratio: 1;
     border-radius: 16px;
-    background: #f3f4f6;
+    background: #f1f5f9;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    color: #9ca3af;
+    color: #94a3b8;
     margin-bottom: 16px;
 
     svg {
@@ -138,13 +138,13 @@
       aspect-ratio: 1;
       border-radius: 8px;
       overflow: hidden;
-      background: #f9fafb;
+      background: #f8fafc;
       cursor: pointer;
       border: 2px solid transparent;
       transition: all 0.2s ease;
 
       &:hover {
-        border-color: #2563eb;
+        border-color: #0d9488;
         transform: scale(1.05);
       }
 
@@ -163,7 +163,7 @@
     font-size: 2.25rem;
     font-weight: 700;
     margin: 0 0 24px;
-    color: #1a1a1a;
+    color: #1e293b;
     line-height: 1.2;
     letter-spacing: -0.02em;
   }
@@ -173,14 +173,14 @@
     flex-direction: column;
     gap: 8px;
     padding: 24px;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
     border-radius: 12px;
     margin-bottom: 32px;
-    border: 1px solid #bae6fd;
+    border: 1px solid #5eead4;
 
     .price-label {
       font-size: 0.9rem;
-      color: #0369a1;
+      color: #0f766e;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -189,7 +189,7 @@
     .price-value {
       font-size: 2rem;
       font-weight: 700;
-      color: #0c4a6e;
+      color: #0d9488;
     }
   }
 
@@ -197,7 +197,7 @@
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0 0 16px;
-    color: #1a1a1a;
+    color: #1e293b;
   }
 
   .product-description {
@@ -206,7 +206,7 @@
     .description-text {
       font-size: 1rem;
       line-height: 1.7;
-      color: #4b5563;
+      color: #475569;
       margin: 0;
       white-space: pre-wrap;
     }
@@ -221,19 +221,19 @@
 
     .variant-card {
       background: #fff;
-      border: 2px solid #e5e7eb;
+      border: 2px solid #e2e8f0;
       border-radius: 12px;
       padding: 20px;
       transition: all 0.2s ease;
 
       &:hover {
-        border-color: #2563eb;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        border-color: #0d9488;
+        box-shadow: 0 4px 12px rgba(13, 148, 136, 0.1);
       }
 
       &.inactive {
         opacity: 0.6;
-        background: #f9fafb;
+        background: #f8fafc;
       }
 
       .variant-header {
@@ -248,7 +248,7 @@
 
           .variant-sku {
             font-size: 0.85rem;
-            color: #6b7280;
+            color: #64748b;
             font-weight: 500;
             margin-bottom: 4px;
             text-transform: uppercase;
@@ -258,21 +258,21 @@
           .variant-name {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #1a1a1a;
+            color: #1e293b;
           }
         }
 
         .variant-price {
           font-size: 1.5rem;
           font-weight: 700;
-          color: #2563eb;
+          color: #0d9488;
           white-space: nowrap;
         }
       }
 
       .variant-details {
         padding-top: 16px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid #e2e8f0;
 
         .stock-info {
           display: flex;
@@ -282,25 +282,25 @@
 
           .stock-label {
             font-size: 0.9rem;
-            color: #6b7280;
+            color: #64748b;
             font-weight: 500;
           }
 
           .stock-value {
             font-size: 1rem;
             font-weight: 600;
-            color: #059669;
+            color: #0d9488;
 
             &.low-stock {
-              color: #dc2626;
+              color: #ea580c;
             }
           }
         }
 
         .reorder-notice {
           font-size: 0.85rem;
-          color: #dc2626;
-          background: #fef2f2;
+          color: #ea580c;
+          background: #fff7ed;
           padding: 6px 12px;
           border-radius: 6px;
           display: inline-block;
