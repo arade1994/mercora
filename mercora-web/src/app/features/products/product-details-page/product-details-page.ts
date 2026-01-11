@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ProductsApiService } from '../products-api.service';
 import { CommonModule } from '@angular/common';
 import { ProductDetailsDto } from '../products.models';
+import { CartStore } from '../../cart/cart-store.service';
 
 type LoadState = 'idle' | 'loading' | 'loaded' | 'error';
 
@@ -15,6 +16,7 @@ type LoadState = 'idle' | 'loading' | 'loaded' | 'error';
 export class ProductDetailsPage {
   private readonly route = inject(ActivatedRoute);
   private readonly api = inject(ProductsApiService);
+  private readonly cart = inject(CartStore);
 
   readonly state = signal<LoadState>('idle');
   readonly error = signal<string | null>(null);
@@ -43,5 +45,24 @@ export class ProductDetailsPage {
         this.error.set(err?.message ?? 'Failed to load product');
       },
     });
+  }
+
+  addToCart(variantId: number) {
+    const p = this.product();
+    if (!p) return;
+
+    const v = p.variants.find(v => v.variantId === variantId);
+    if (!v) return;
+
+    this.cart.add({
+      variantId: v.variantId,
+      sku: v.sku,
+      productName: p.name,
+      variantName: v.variantName,
+      unitPrice: v.price,
+      currencyCode: p.currencyCode,
+      quantity: 1,
+      maxQuantity: v.quantityOnHand,
+    })
   }
 }
