@@ -1,11 +1,30 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { CartItem } from './cart.models';
+import { effect } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartStore {
   private readonly _items = signal<CartItem[]>([]);
+  private readonly storageKey = 'mercora.cart.v1';
+
+  constructor() {
+    const raw = localStorage.getItem(this.storageKey);
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw) as CartItem[];
+        if (Array.isArray(parsed)) this._items.set(parsed);
+      } catch {
+        localStorage.removeItem(this.storageKey);
+      }
+    }
+
+    effect(() => {
+      const items = this._items();
+      localStorage.setItem(this.storageKey, JSON.stringify(items));
+    });
+  }
 
   readonly items = computed(() => this._items());
   readonly itemCount = computed(() => this._items().reduce((sum, i) => sum + i.quantity, 0));

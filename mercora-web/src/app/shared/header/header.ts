@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartStore } from '../../features/cart/cart-store.service';
 
 @Component({
   selector: 'app-header',
@@ -10,5 +11,6 @@ import { RouterModule } from '@angular/router';
   standalone: true
 })
 export class HeaderComponent {
+  readonly cart = inject(CartStore);
 }
 
