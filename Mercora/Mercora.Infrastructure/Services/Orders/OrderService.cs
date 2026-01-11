@@ -7,9 +7,9 @@ namespace Mercora.Infrastructure.Services.Orders
 {
     public class OrderService : IOrderService
     {
-        private readonly IOrderRepository _orders;
+        private readonly IOrderRepository _repo;
 
-        public OrderService(IOrderRepository orders) => _orders = orders;
+        public OrderService(IOrderRepository repo) => _repo = repo;
 
         public async Task<PlaceOrderResponseDto> PlaceOrderAsync(PlaceOrderRequestDto request)
         {
@@ -25,7 +25,7 @@ namespace Mercora.Infrastructure.Services.Orders
             if (request.Lines.GroupBy(l => l.VariantId).Any(g => g.Count() > 1))
                 throw new ArgumentException("Duplicate VariantId lines are not allowed", nameof(request.Lines));
 
-            return await _orders.PlaceOrderAsync(request);
+            return await _repo.PlaceOrderAsync(request);
         }
     }
 }

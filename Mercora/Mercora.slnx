@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="Mercora.Api.Tests/Mercora.Api.Tests.csproj" Id="0f822a1b-8aca-4f09-85af-f22cd2735d5f" />
+  <Project Path="Mercora.Application.Tests/Mercora.Application.Tests.csproj" Id="007b71b9-e36c-4c0f-b142-7bb0c37040aa" />
   <Project Path="Mercora.Application/Mercora.Application.csproj" Id="8195306b-1f72-47b7-804b-ca673d8be73e" />
   <Project Path="Mercora.Domain/Mercora.Domain.csproj" Id="35e01f3a-3a10-4dc9-8305-59a854e6179c" />
   <Project Path="Mercora.Infrastructure/Mercora.Infrastructure.csproj" />
