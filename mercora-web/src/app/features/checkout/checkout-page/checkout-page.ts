@@ -48,33 +48,11 @@ export class CheckoutPage {
       },
       error: (err) => {
         this.state.set('error');
-        this.errorMessage.set(extractProblemDetailsMessage(err) ?? 'Checkout failed');
+        this.errorMessage.set(err?.message ?? 'Checkout failed');
       },
       complete: () => {
         this.state.set('idle');
       }
     })
   }
-}
-
-/**
- * Tries to extract a useful message from ASP.NET ProblemDetails responses.
- */
-function extractProblemDetailsMessage(err: any): string | null {
-  const body = err?.error;
-
-  // Our custom middleware shape or standard ValidationProblemDetails
-  if (typeof body?.detail === 'string') return body.detail;
-  if (typeof body?.title === 'string' && typeof body?.status === 'number') return body.title;
-
-  // ValidationProblemDetails: { errors: { field: [msg] } }
-  const errors = body?.errors;
-  if (errors && typeof errors === 'object') {
-    const firstKey = Object.keys(errors)[0];
-    const first = errors[firstKey]?.[0];
-    if (typeof first === 'string') return first;
-  }
-
-  // Fallback
-  return err?.message ?? null;
 }
