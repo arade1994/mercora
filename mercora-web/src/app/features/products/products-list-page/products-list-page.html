@@ -77,7 +77,7 @@
           <div class="product-info">
             <h3 class="product-name">{{ p.name }}</h3>
             <div class="product-price">
-              <span class="price-amount">{{ p.currencyCode }} {{ p.priceFrom | number:'1.2-2' }}</span>
+              <span class="price-amount">{{ p.basePrice | currency: p?.currencyCode : 'symbol' : '1.2-2' }}</span>
             </div>
           </div>
         </a>

@@ -63,7 +63,7 @@
         <div class="product-price-section">
           <span class="price-label">Price</span>
           <span class="price-value">
-            {{ product()?.currencyCode }} {{ product()?.basePrice | number:'1.2-2' }}
+            {{ product()?.basePrice | currency: product()?.currencyCode : 'symbol' : '1.2-2' }}
           </span>
         </div>
 
@@ -86,7 +86,7 @@
                       <div class="variant-name">{{ v.variantName || 'Default Variant' }}</div>
                     </div>
                     <div class="variant-price">
-                      {{ product()?.currencyCode }} {{ v.price | number:'1.2-2' }}
+                      {{ v.price | currency: product()?.currencyCode : 'symbol' : '1.2-2' }}
                     </div>
                   </div>
                   

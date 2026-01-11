@@ -35,7 +35,7 @@
                 <span class="item-variant">{{ item.variantName || 'Default' }}</span>
               </div>
               <div class="item-price">
-                {{ item.currencyCode }} {{ item.unitPrice | number:'1.2-2' }}
+                {{ item.unitPrice | currency: item.currencyCode : 'symbol' : '1.2-2' }}
               </div>
             </div>
 
@@ -79,7 +79,7 @@
           <div class="summary-row total-row">
             <span class="summary-label">Subtotal</span>
             <span class="summary-value total-value">
-              {{ cart.currencyCode() }} {{ cart.subtotal() | number:'1.2-2' }}
+              {{ cart.subtotal() | currency: cart.currencyCode() : 'symbol' : '1.2-2' }}
             </span>
           </div>
         </div>
