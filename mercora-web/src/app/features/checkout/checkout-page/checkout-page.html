@@ -1,0 +1,138 @@
+<div class="checkout-page">
+  <div class="checkout-header">
+    <h1 class="page-title">Checkout</h1>
+    <a routerLink="/cart" class="back-link">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back to cart
+    </a>
+  </div>
+
+  @if (state() === 'success' && success()) {
+    <div class="success-container">
+      <div class="success-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
+      <h2 class="success-title">Order Placed Successfully!</h2>
+      <div class="success-details">
+        <div class="success-detail-row">
+          <span class="detail-label">Order Number</span>
+          <span class="detail-value">{{ success()?.orderNumber }}</span>
+        </div>
+        <div class="success-detail-row">
+          <span class="detail-label">Total Amount</span>
+          <span class="detail-value total-amount">
+            {{ success()?.currencyCode }} {{ success()?.totalAmount | number:'1.2-2' }}
+          </span>
+        </div>
+      </div>
+      <a routerLink="/products" class="continue-shopping-button">
+        Continue Shopping
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </a>
+    </div>
+  } @else {
+    @if (state() === 'error') {
+      <div class="error-container">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <p class="error-message">{{ errorMessage() }}</p>
+      </div>
+    }
+
+    <div class="checkout-content">
+      <div class="checkout-items">
+        <h2 class="section-title">Order Items</h2>
+
+        @if (cart.items().length === 0) {
+          <div class="empty-cart-message">
+            <p>Your cart is empty.</p>
+            <a routerLink="/products" class="shop-link">Go to products</a>
+          </div>
+        } @else {
+          <div class="items-list">
+            @for (item of cart.items(); track item.variantId) {
+              <div class="checkout-item">
+                <div class="item-main-info">
+                  <h3 class="item-name">{{ item.productName }}</h3>
+                  <div class="item-details">
+                    <span class="item-sku">{{ item.sku }}</span>
+                    <span class="item-separator">·</span>
+                    <span class="item-variant">{{ item.variantName || 'Default' }}</span>
+                  </div>
+                </div>
+                <div class="item-pricing">
+                  <div class="item-unit-price">
+                    {{ item.currencyCode }} {{ item.unitPrice | number:'1.2-2' }}
+                  </div>
+                  <div class="item-quantity">x {{ item.quantity }}</div>
+                  <div class="item-total">
+                    {{ item.currencyCode }} {{ (item.unitPrice * item.quantity) | number:'1.2-2' }}
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="checkout-summary">
+        <h2 class="section-title">Order Summary</h2>
+
+        <div class="user-id-section">
+          <label class="user-id-label">User ID (temporary)</label>
+          <input
+            type="number"
+            [ngModel]="userId()"
+            (ngModelChange)="userId.set($event)"
+            min="1"
+            class="user-id-input"
+            placeholder="Enter user ID"
+          />
+        </div>
+
+        <div class="summary-details">
+          <div class="summary-row">
+            <span class="summary-label">Items</span>
+            <span class="summary-value">{{ cart.itemCount() }}</span>
+          </div>
+          <div class="summary-row total-row">
+            <span class="summary-label">Subtotal</span>
+            <span class="summary-value total-value">
+              {{ cart.currencyCode() }} {{ cart.subtotal() | number:'1.2-2' }}
+            </span>
+          </div>
+        </div>
+
+        <button
+          (click)="submit()"
+          [disabled]="!canSubmit()"
+          class="place-order-button"
+        >
+          @if (state() === 'submitting') {
+            <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+            </svg>
+            Placing order...
+          } @else {
+            Place Order
+          }
+        </button>
+
+        <p class="payment-notice">
+          Payments are not implemented yet — this places the order in the database.
+        </p>
+      </div>
+    </div>
+  }
+</div>
+  
