@@ -2,9 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
+	<IsTestProject>true</IsTestProject>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+
+	<PreserveCompilationContext>true</PreserveCompilationContext>
+	<IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +16,7 @@
     <PackageReference Include="FluentAssertions" Version="8.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Moq" Version="4.20.72" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
@@ -19,5 +24,16 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mercora.Application\Mercora.Application.csproj" />
+    <ProjectReference Include="..\Mercora\Mercora.Api.csproj" />
+  </ItemGroup>
+
+    <ItemGroup>
+	    <!-- Copy the app's deps/runtime config into test output so testhost can boot the API -->
+	    <None Include="..\Mercora\bin\$(Configuration)\net10.0\Mercora.Api.deps.json" CopyToOutputDirectory="PreserveNewest" />
+	    <None Include="..\Mercora\bin\$(Configuration)\net10.0\Mercora.Api.runtimeconfig.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
 
 </Project>
